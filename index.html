@@ -90,18 +90,18 @@
         const PASS_THRESHOLD = 2; // Minimum correct answers to pass
 
         function generateQRCode() {
-            const qrCodeDiv = document.getElementById('qrcode');
-            qrCodeDiv.innerHTML = '';
-
-            new QRCode(qrCodeDiv, {
-                text: "Start the Quiz Challenge!",
-                width: 256,
-                height: 256,
-                colorDark: "#000000",
-                colorLight: "#ffffff",
-                correctLevel: QRCode.CorrectLevel.H
-            });
-        }
+                const qrCodeDiv = document.getElementById('qrcode');
+                qrCodeDiv.innerHTML = '';
+        
+                new QRCode(qrCodeDiv, {
+                    text: "https://rushit4190.github.io/QUIZ-APP/",
+                    width: 256,
+                    height: 256,
+                    colorDark: "#000000",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            }
 
         function selectRandomQuestions() {
             let shuffled = quizQuestions.sort(() => 0.5 - Math.random());

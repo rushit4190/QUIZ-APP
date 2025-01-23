@@ -35,59 +35,41 @@
     <script>
         const quizQuestions = [
             {
-                question: "What is the capital of France?",
-                options: ["London", "Paris", "Berlin", "Madrid"],
-                correctAnswer: "Paris"
+                question: "In which stage of OMS fraud detection happens?",
+                options: ["Pre-Fulfillment", "Fullfillment", "Shipment", "Invoicing"],
+                correctAnswer: "Pre-Fulfillment"
             },
             {
-                question: "What is 2 + 2?",
-                options: ["3", "4", "5", "6"],
-                correctAnswer: "4"
+                question: "In which Stage of OMS, order will be loaded to truck ?",
+                options: ["Fullfillment", "Pre-Fulfillment", "Invoicing", "Shipment"],
+                correctAnswer: "Fullfillment"
             },
             {
-                question: "Who painted the Mona Lisa?",
-                options: ["Van Gogh", "Picasso", "Leonardo da Vinci", "Michelangelo"],
-                correctAnswer: "Leonardo da Vinci"
+                question: "Which Service handles D2H Shipment",
+                options: ["Fullfillment", "Pre-Fulfillment", "Shipment", "Invoicing"],
+                correctAnswer: "Shipment"
             },
             {
-                question: "What is the largest planet?",
-                options: ["Earth", "Mars", "Jupiter", "Saturn"],
-                correctAnswer: "Jupiter"
+                question: "In which service repricing happens? ",
+                options: ["Fullfillment", "Pre-Fulfillment", "Invoicing", "Shipment"],
+                correctAnswer: "Invoicing"
             },
             {
-                question: "What is the chemical symbol for gold?",
-                options: ["Ag", "Au", "Fe", "Cu"],
-                correctAnswer: "Au"
+                question: "Which Service handles Invoice Settlement with Payment Network?",
+                options: ["Fullfillment", "PaySe", "Invoicing", "Shipment"],
+                correctAnswer: "PaySe"
             },
             {
-                question: "Who wrote Romeo and Juliet?",
-                options: ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"],
-                correctAnswer: "William Shakespeare"
-            },
-            {
-                question: "What is the largest mammal?",
-                options: ["Elephant", "Giraffe", "Blue Whale", "Hippopotamus"],
-                correctAnswer: "Blue Whale"
-            },
-            {
-                question: "What is the capital of Japan?",
-                options: ["Beijing", "Seoul", "Tokyo", "Bangkok"],
-                correctAnswer: "Tokyo"
-            },
-            {
-                question: "What is 10 × 10?",
-                options: ["90", "100", "110", "80"],
-                correctAnswer: "100"
-            },
-            {
-                question: "What is the fastest land animal?",
-                options: ["Lion", "Tiger", "Cheetah", "Leopard"],
-                correctAnswer: "Cheetah"
+                question: "Which service does revenue postings for an invoice?",
+                options: ["Shipment", "Pre-Fulfillment", "Accounting", "Invoicing"],
+                correctAnswer: "Account"
             }
+
+
         ];
 
         let currentQuestions = [];
-        const PASS_THRESHOLD = 2; // Minimum correct answers to pass
+        const PASS_THRESHOLD = 3; // Minimum correct answers to pass
 
         function generateQRCode() {
                 const qrCodeDiv = document.getElementById('qrcode');

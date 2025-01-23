@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCQ Quiz Challenge</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; text-align: center; }
+        .question { margin-bottom: 20px; }
+        .options { display: flex; flex-direction: column; }
+        .option { margin: 10px 0; padding: 10px; border: 1px solid #ddd; }
+        .option.selected { background-color: #e0e0e0; }
+        #resultScreen { display: none; }
+    </style>
+</head>
+<body>
+    <div id="startScreen">
+        <h2>Quiz Challenge</h2>
+        <div id="qrcode"></div>
+        <button onclick="startQuiz()">Start Quiz</button>
+    </div>
+
+    <div id="quizScreen" style="display:none;">
+        <div id="questionsContainer"></div>
+        <button onclick="submitQuiz()">Submit Answers</button>
+    </div>
+
+    <div id="resultScreen">
+        <h2 id="resultTitle"></h2>
+        <p id="resultMessage"></p>
+        <button onclick="resetQuiz()">Try Again</button>
+    </div>
+
+    <script>
+        const quizQuestions = [
+            {
+                question: "What is the capital of France?",
+                options: ["London", "Paris", "Berlin", "Madrid"],
+                correctAnswer: "Paris"
+            },
+            {
+                question: "What is 2 + 2?",
+                options: ["3", "4", "5", "6"],
+                correctAnswer: "4"
+            },
+            {
+                question: "Who painted the Mona Lisa?",
+                options: ["Van Gogh", "Picasso", "Leonardo da Vinci", "Michelangelo"],
+                correctAnswer: "Leonardo da Vinci"
+            },
+            {
+                question: "What is the largest planet?",
+                options: ["Earth", "Mars", "Jupiter", "Saturn"],
+                correctAnswer: "Jupiter"
+            },
+            {
+                question: "What is the chemical symbol for gold?",
+                options: ["Ag", "Au", "Fe", "Cu"],
+                correctAnswer: "Au"
+            },
+            {
+                question: "Who wrote Romeo and Juliet?",
+                options: ["Charles Dickens", "William Shakespeare", "Jane Austen", "Mark Twain"],
+                correctAnswer: "William Shakespeare"
+            },
+            {
+                question: "What is the largest mammal?",
+                options: ["Elephant", "Giraffe", "Blue Whale", "Hippopotamus"],
+                correctAnswer: "Blue Whale"
+            },
+            {
+                question: "What is the capital of Japan?",
+                options: ["Beijing", "Seoul", "Tokyo", "Bangkok"],
+                correctAnswer: "Tokyo"
+            },
+            {
+                question: "What is 10 × 10?",
+                options: ["90", "100", "110", "80"],
+                correctAnswer: "100"
+            },
+            {
+                question: "What is the fastest land animal?",
+                options: ["Lion", "Tiger", "Cheetah", "Leopard"],
+                correctAnswer: "Cheetah"
+            }
+        ];
+
+        let currentQuestions = [];
+        const PASS_THRESHOLD = 2; // Minimum correct answers to pass
+
+        function generateQRCode() {
+            const qrCodeDiv = document.getElementById('qrcode');
+            qrCodeDiv.innerHTML = '';
+
+            new QRCode(qrCodeDiv, {
+                text: "Start the Quiz Challenge!",
+                width: 256,
+                height: 256,
+                colorDark: "#000000",
+                colorLight: "#ffffff",
+                correctLevel: QRCode.CorrectLevel.H
+            });
+        }
+
+        function selectRandomQuestions() {
+            let shuffled = quizQuestions.sort(() => 0.5 - Math.random());
+            currentQuestions = shuffled.slice(0, 3);
+        }
+
+        function startQuiz() {
+            selectRandomQuestions();
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('quizScreen').style.display = 'block';
+            renderQuestions();
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+
+            currentQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.innerHTML = `
+                    <p><strong>Question ${index + 1}:</strong> ${q.question}</p>
+                    <div class="options">
+                        ${q.options.map((option, optIndex) => `
+                            <div class="option" onclick="selectOption(this, ${index}, ${optIndex})">
+                                ${option}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(questionDiv);
+            });
+        }
+
+        function selectOption(element, questionIndex, optionIndex) {
+            const optionsContainer = element.parentElement;
+            optionsContainer.querySelectorAll('.option').forEach(opt => 
+                opt.classList.remove('selected')
+            );
+            element.classList.add('selected');
+            currentQuestions[questionIndex].selectedAnswer = 
+                currentQuestions[questionIndex].options[optionIndex];
+        }
+
+        function submitQuiz() {
+            let correctAnswers = 0;
+
+            currentQuestions.forEach(q => {
+                if (q.selectedAnswer === q.correctAnswer) {
+                    correctAnswers++;
+                }
+            });
+
+            showResult(correctAnswers);
+        }
+
+        function showResult(correctCount) {
+            document.getElementById('quizScreen').style.display = 'none';
+            document.getElementById('resultScreen').style.display = 'block';
+
+            const resultTitle = document.getElementById('resultTitle');
+            const resultMessage = document.getElementById('resultMessage');
+
+            if (correctCount >= PASS_THRESHOLD) {
+                resultTitle.textContent = "Congratulations! 🎉";
+                resultMessage.textContent = `You passed the quiz with ${correctCount} out of 3 correct answers!`;
+                resultTitle.style.color = 'green';
+            } else {
+                resultTitle.textContent = "Sorry! 😔";
+                resultMessage.textContent = `You did not pass. You got ${correctCount} out of 3 correct answers.`;
+                resultTitle.style.color = 'red';
+            }
+        }
+
+        function resetQuiz() {
+            document.getElementById('resultScreen').style.display = 'none';
+            document.getElementById('startScreen').style.display = 'block';
+            generateQRCode();
+        }
+
+        // Initialize QR code on page load
+        window.onload = generateQRCode;
+    </script>
+</body>
+</html>
